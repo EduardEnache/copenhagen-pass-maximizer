@@ -191,6 +191,40 @@
 
 /* -- Map ------------------------------------------------------------------ */
 
+.map-embed {
+  margin: 0;
+}
+
+.map-embed__frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  background: var(--color-paper-raised);
+}
+
+.map-embed__frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.map-embed__caption {
+  margin-top: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--color-ink-muted);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .map-embed__frame {
+    transition: box-shadow 0.2s ease;
+  }
+}
+
 .map-legend {
   display: flex;
   flex-wrap: wrap;

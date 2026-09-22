@@ -21,6 +21,7 @@ const tier1Day1: ItineraryDay = {
   geographicReasoning:
     'A late arrival leaves too little daylight for the full Indre By museum sweep. The card is still activated on landing regardless of the hour, and the single schedule-forgiving Round Tower slot is kept; the National Museum is explicitly rebalanced to Day 3 morning (see the alternative block in Day 3\'s fallbacks) or Day 4 (its primary new home in this tier\'s Day 4 plan).',
   dayWarnings: [
+    'NOTE: not applicable to the confirmed flight (W43123 arrives 08:25, well before this 15:00 threshold) — kept here in case the flight is later delayed or rebooked.',
     'Late-arrival tier 1: arrival confirmed after 15:00.',
     'National Museum of Denmark does NOT run on Day 1 in this tier — it is rescheduled to Day 4 (open Mondays) in this plan, with a Day 3 morning alternative also modelled explicitly.',
   ],
@@ -189,6 +190,7 @@ const tier2Day1: ItineraryDay = {
   geographicReasoning:
     'With arrival after 19:00 there is no viable daylight window left for any attraction. The card is still activated on landing (starting its clock), and both the National Museum and the Round Tower are explicitly rebalanced to later days.',
   dayWarnings: [
+    'NOTE: not applicable to the confirmed flight (W43123 arrives 08:25, well before this 19:00 threshold) — kept here in case the flight is later delayed or rebooked.',
     'Late-arrival tier 2: arrival confirmed after 19:00.',
     'No attraction is attempted on Day 1 in this tier.',
     'National Museum of Denmark rebalanced to Day 4 (open Mondays).',

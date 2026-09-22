@@ -41,7 +41,7 @@ export const TIVOLI_GARDENS: Attraction = {
   indoor: false,
   lowMobilityFriendly: true,
   officialUrl: 'https://www.tivoli.dk/en/opening-hours-and-seasons',
-  osmUrl: 'https://www.openstreetmap.org/?mlat=55.6736&mlon=12.5681#map=17/55.6736/12.5681',
+  mapUrl: 'https://www.google.com/maps/search/?api=1&query=55.6736,12.5681',
   warnings: [
     'EXCLUDED from this trip — see the `excluded` field. Must never be scheduled in any itinerary block.',
   ],
@@ -79,7 +79,7 @@ export const NATIONAL_MUSEUM_DENMARK: Attraction = {
   indoor: true,
   lowMobilityFriendly: true,
   officialUrl: 'https://nationalmuseet.dk/en/information',
-  osmUrl: 'https://www.openstreetmap.org/?mlat=55.6752&mlon=12.5744#map=17/55.6752/12.5744',
+  mapUrl: 'https://www.google.com/maps/search/?api=1&query=55.6752,12.5744',
   warnings: [],
 };
 
@@ -110,7 +110,7 @@ export const ROUND_TOWER: Attraction = {
   indoor: true,
   lowMobilityFriendly: false,
   officialUrl: 'https://www.rundetaarn.dk/en/practical-information/',
-  osmUrl: 'https://www.openstreetmap.org/?mlat=55.6809&mlon=12.5775#map=17/55.6809/12.5775',
+  mapUrl: 'https://www.google.com/maps/search/?api=1&query=55.6809,12.5775',
   warnings: [
     'Plan to a 10:00–18:00 floor; 20:00 close is the summer-band figure, switchover date unconfirmed.',
     'Ascent is via a walking ramp, not a lift — indoor but not step-free.',
@@ -139,7 +139,7 @@ export const FREDERIKSBORG_CASTLE: Attraction = {
   indoor: true,
   lowMobilityFriendly: true,
   officialUrl: 'https://frederiksborg.dk/en/',
-  osmUrl: 'https://www.openstreetmap.org/?mlat=55.9349&mlon=12.3006#map=17/55.9349/12.3006',
+  mapUrl: 'https://www.google.com/maps/search/?api=1&query=55.9349,12.3006',
   warnings: ['Standalone adult price conflicts across sources (120 vs 125 DKK); not used in cost totals.'],
 };
 
@@ -185,7 +185,7 @@ export const SMK_NATIONAL_GALLERY: Attraction = {
   indoor: true,
   lowMobilityFriendly: true,
   officialUrl: 'https://www.smk.dk/en/',
-  osmUrl: 'https://www.openstreetmap.org/?mlat=55.6867&mlon=12.5789#map=17/55.6867/12.5789',
+  mapUrl: 'https://www.google.com/maps/search/?api=1&query=55.6867,12.5789',
   warnings: ['Closed Mondays.'],
 };
 
@@ -225,7 +225,7 @@ export const ROSENBORG_CASTLE: Attraction = {
   indoor: true,
   lowMobilityFriendly: false,
   officialUrl: 'https://denkongeligesamling.dk/en/rosenborg-castle/plan-your-visit/',
-  osmUrl: 'https://www.openstreetmap.org/?mlat=55.6857&mlon=12.5775#map=17/55.6857/12.5775',
+  mapUrl: 'https://www.google.com/maps/search/?api=1&query=55.6857,12.5775',
   warnings: [
     'Closing time conflicts across sources: one says 16:00, another 17:00 for late September; plan to the conservative 16:00 close.',
     'Narrow spiral staircases — not low-mobility-friendly.',
@@ -250,7 +250,7 @@ export const AMALIENBORG_MUSEUM: Attraction = {
   indoor: true,
   lowMobilityFriendly: true,
   officialUrl: 'https://denkongeligesamling.dk/en/amalienborg-museum/plan-your-visit/opening-hours/',
-  osmUrl: 'https://www.openstreetmap.org/?mlat=55.684&mlon=12.5934#map=17/55.684/12.5934',
+  mapUrl: 'https://www.google.com/maps/search/?api=1&query=55.684,12.5934',
   warnings: ['Closed Mondays — do not schedule on 28 Sept.'],
 };
 
@@ -287,7 +287,7 @@ export const DESIGNMUSEUM_DANMARK: Attraction = {
   indoor: true,
   lowMobilityFriendly: true,
   officialUrl: 'https://designmuseum.dk/en/besog-os/opening-hours-admission/',
-  osmUrl: 'https://www.openstreetmap.org/?mlat=55.6873&mlon=12.5924#map=17/55.6873/12.5924',
+  mapUrl: 'https://www.google.com/maps/search/?api=1&query=55.6873,12.5924',
   warnings: ['Ticket sales close 1 hour before closing time.', 'Closed Mondays — do not schedule on 28 Sept.'],
 };
 
@@ -319,7 +319,7 @@ export const CANAL_TOURS_COPENHAGEN: Attraction = {
   indoor: false,
   lowMobilityFriendly: false,
   officialUrl: 'https://copenhagencard.com/attractions/canal-tours-copenhagen',
-  osmUrl: 'https://www.openstreetmap.org/?mlat=55.6765&mlon=12.5789#map=17/55.6765/12.5789',
+  mapUrl: 'https://www.google.com/maps/search/?api=1&query=55.6765,12.5789',
   warnings: [
     'CRITICAL: exact last departure time is not published for September — verify before planning an evening sailing, or move it earlier.',
     'Must board at the Ved Stranden 26 ticket office; boarding elsewhere incurs a surcharge.',
@@ -346,7 +346,7 @@ export const CISTERNERNE: Attraction = {
   indoor: true,
   lowMobilityFriendly: true,
   officialUrl: 'https://copenhagencard.com/attractions/cisternerne',
-  osmUrl: 'https://www.openstreetmap.org/?mlat=55.6724&mlon=12.5217#map=17/55.6724/12.5217',
+  mapUrl: 'https://www.google.com/maps/search/?api=1&query=55.6724,12.5217',
   warnings: [
     'Standalone price conflicts across sources (110-120 DKK); not used in cost totals.',
     'Official frederiksbergmuseerne.dk source page was unreachable during research; hours corroborated via a secondary source (Copenhagen Card) only.',
@@ -375,7 +375,7 @@ export const WORKERS_MUSEUM: Attraction = {
   indoor: true,
   lowMobilityFriendly: true,
   officialUrl: 'https://www.arbejdermuseet.dk/en/visit/openinghours-and-admissions/',
-  osmUrl: 'https://www.openstreetmap.org/?mlat=55.6836&mlon=12.5697#map=17/55.6836/12.5697',
+  mapUrl: 'https://www.google.com/maps/search/?api=1&query=55.6836,12.5697',
   warnings: ['Open Mondays — one of very few Monday-open central attractions, valuable as a Day 4 anchor.'],
 };
 
@@ -398,7 +398,7 @@ export const DAVID_COLLECTION: Attraction = {
   indoor: true,
   lowMobilityFriendly: true,
   officialUrl: 'https://www.kbhmuseer.dk/en/museum/the-david-collection/',
-  osmUrl: 'https://www.openstreetmap.org/?mlat=55.6844&mlon=12.5825#map=17/55.6844/12.5825',
+  mapUrl: 'https://www.google.com/maps/search/?api=1&query=55.6844,12.5825',
   warnings: [
     'Hours not confirmed from an official page today (believed Tue-Sun, Mon closed, exact times unknown) — optional filler only, verify before relying on it.',
     'Normally free admission, but this was not independently verified today.',
@@ -423,7 +423,7 @@ export const CHRISTIANSBORG_PALACE: Attraction = {
   indoor: true,
   lowMobilityFriendly: true,
   officialUrl: 'https://denkongeligesamling.dk/en/christiansborg-palace/plan-your-visit/',
-  osmUrl: 'https://www.openstreetmap.org/?mlat=55.6761&mlon=12.5789#map=17/55.6761/12.5789',
+  mapUrl: 'https://www.google.com/maps/search/?api=1&query=55.6761,12.5789',
   warnings: [
     'No large bags or suitcases admitted.',
     'Opening hours not confirmed today — verify before travel.',
@@ -456,7 +456,7 @@ export const KRONBORG_CASTLE: Attraction = {
   indoor: true,
   lowMobilityFriendly: true,
   officialUrl: 'https://kronborg.dk/en/plan-your-visit',
-  osmUrl: 'https://www.openstreetmap.org/?mlat=56.0388&mlon=12.6199#map=17/56.0388/12.6199',
+  mapUrl: 'https://www.google.com/maps/search/?api=1&query=56.0388,12.6199',
   warnings: [
     'Standalone price conflicts across sources (145-150 DKK); not used in cost totals.',
     'Hours are secondary-sourced (partially-verified).',
@@ -481,7 +481,7 @@ export const COPENHAGEN_ZOO: Attraction = {
   indoor: false,
   lowMobilityFriendly: true,
   officialUrl: 'https://www.zoo.dk/en/opening-hours',
-  osmUrl: 'https://www.openstreetmap.org/?mlat=55.6712&mlon=12.5245#map=17/55.6712/12.5245',
+  mapUrl: 'https://www.google.com/maps/search/?api=1&query=55.6712,12.5245',
   warnings: ['Has indoor houses (Arctic Ring, tropical house) that degrade gracefully in bad weather.'],
 };
 
@@ -502,7 +502,7 @@ export const LOUISIANA_MUSEUM: Attraction = {
   indoor: true,
   lowMobilityFriendly: true,
   officialUrl: 'https://louisiana.dk/en/',
-  osmUrl: 'https://www.openstreetmap.org/?mlat=55.9694&mlon=12.5686#map=17/55.9694/12.5686',
+  mapUrl: 'https://www.google.com/maps/search/?api=1&query=55.9694,12.5686',
   warnings: ['Hours not verified today — treat as optional/deferred, do not schedule without checking first.'],
 };
 
@@ -523,7 +523,7 @@ export const ARKEN_MUSEUM: Attraction = {
   indoor: true,
   lowMobilityFriendly: true,
   officialUrl: 'https://arken.dk/en/',
-  osmUrl: 'https://www.openstreetmap.org/?mlat=55.6156&mlon=12.3467#map=17/55.6156/12.3467',
+  mapUrl: 'https://www.google.com/maps/search/?api=1&query=55.6156,12.3467',
   warnings: ['Hours not verified today — treat as optional/deferred, do not schedule without checking first.'],
 };
 
@@ -544,7 +544,7 @@ export const BOTANICAL_GARDEN: Attraction = {
   indoor: false,
   lowMobilityFriendly: true,
   officialUrl: 'https://botanik.snm.ku.dk/english/',
-  osmUrl: 'https://www.openstreetmap.org/?mlat=55.6867&mlon=12.5762#map=17/55.6867/12.5762',
+  mapUrl: 'https://www.google.com/maps/search/?api=1&query=55.6867,12.5762',
   warnings: [
     'Free outdoor garden; hours not verified today. Treat as an always-available bonus filler, never load-bearing in a plan.',
   ],

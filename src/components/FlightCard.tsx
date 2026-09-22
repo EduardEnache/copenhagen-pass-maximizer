@@ -70,11 +70,29 @@ export function FlightCard({ direction }: FlightCardProps) {
               {from} &rarr; {to}
             </dd>
           </div>
-          {isOutbound && (
+          {isOutbound ? (
             <div className="travel-card__field">
-              <dt>Arrives (estimate)</dt>
+              <dt>{arrivalIsEstimate ? 'Arrives (estimate)' : 'Arrives'}</dt>
               <dd>{arrivesLocal ? `${dateInCph(arrivesLocal)} ${timeInCph(arrivesLocal)}` : 'Unknown'}</dd>
             </div>
+          ) : (
+            <>
+              {config.returnFlight.departureTerminal && (
+                <div className="travel-card__field">
+                  <dt>Departure terminal</dt>
+                  <dd>{config.returnFlight.departureTerminal}</dd>
+                </div>
+              )}
+              {config.returnFlight.arrivesLocal && (
+                <div className="travel-card__field">
+                  <dt>Arrives OTP</dt>
+                  <dd>
+                    {dateInCph(config.returnFlight.arrivesLocal)} ({WEEKDAY[dayOfWeekInCph(config.returnFlight.arrivesLocal)]}){' '}
+                    {timeInCph(config.returnFlight.arrivesLocal)} &middot; next day, Romania local time
+                  </dd>
+                </div>
+              )}
+            </>
           )}
         </dl>
 

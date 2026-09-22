@@ -1,6 +1,6 @@
 import type { BlockKind, GeoPoint, ISODate, ItineraryBlock } from '@/types';
 import { ATTRACTIONS_BY_ID, FALLBACK_BLOCKS_BY_ID } from '@/data';
-import { dayOfWeekInCph, formatDkk, formatDurationMinutes, osmDirections, osmMarker } from '@/lib';
+import { dayOfWeekInCph, formatDkk, formatDurationMinutes, googleMapsDirections, googleMapsMarker } from '@/lib';
 import { Badge } from './Badge';
 import { Callout } from './Callout';
 import { SourceLink } from './SourceLink';
@@ -78,8 +78,8 @@ export function TimelineBlock({ block, date, originGeo }: TimelineBlockProps) {
 
   const directionsUrl = attraction
     ? originGeo
-      ? osmDirections(originGeo, attraction.geo)
-      : osmMarker(attraction.geo)
+      ? googleMapsDirections(originGeo, attraction.geo)
+      : googleMapsMarker(attraction.geo, attraction.shortName ?? attraction.name)
     : undefined;
 
   return (
@@ -159,7 +159,7 @@ export function TimelineBlock({ block, date, originGeo }: TimelineBlockProps) {
           <div className="timeline-block__links">
             {directionsUrl && (
               <a href={directionsUrl} target="_blank" rel="noopener noreferrer" className="source-link">
-                {originGeo ? 'Directions (OpenStreetMap)' : 'View location (OpenStreetMap)'}
+                {originGeo ? 'Directions (Google Maps)' : 'View location (Google Maps)'}
                 <ExternalLinkIcon />
               </a>
             )}

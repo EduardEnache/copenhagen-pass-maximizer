@@ -74,7 +74,7 @@ export interface Attraction {
   indoor: boolean;
   lowMobilityFriendly: boolean;
   officialUrl: string;
-  osmUrl: string;
+  mapUrl: string; // Google Maps link (search/pin), no API key required
   warnings: string[];
   excluded?: { reason: string; source: SourceRef };
 }
@@ -189,7 +189,12 @@ export interface TripConfig {
     arrivesLocal: ISODateTime | null;
     arrivalIsEstimate: boolean;
   };
-  returnFlight: { number: string | null; departsLocal: ISODateTime };
+  returnFlight: {
+    number: string | null;
+    departsLocal: ISODateTime;
+    departureTerminal?: string;
+    arrivesLocal?: ISODateTime;
+  };
   targetAirportArrival: ISODateTime; // default '2026-09-28T19:00:00+02:00'
   leaveCityForAirport: ISODateTime; // default '2026-09-28T17:15:00+02:00'
   airportTransferMinutes: number; // default 35

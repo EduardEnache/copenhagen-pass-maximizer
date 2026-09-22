@@ -29,9 +29,9 @@ export const VERIFY_BEFORE_YOU_GO: VerifyItem[] = [
     source: ROSENBORG_SOURCE,
   },
   {
-    id: 'verify-flight-arrival-unknown',
-    severity: 'critical',
-    message: 'Outbound OTP→CPH flight arrival time is unknown/unconfirmed. Day 1 plans an estimated ~11:00 landing — confirm before travel and update the app\'s activation time accordingly.',
+    id: 'verify-flight-arrival-confirmed',
+    severity: 'info',
+    message: 'RESOLVED 2026-09-22: outbound flight confirmed as W43123, OTP 06:40 → CPH 08:25. Day 1 and the default card-activation time are built around this. If the flight is later delayed or rebooked, update it in the Calculator page.',
   },
   {
     id: 'verify-full-journey-validity',

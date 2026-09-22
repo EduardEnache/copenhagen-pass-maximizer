@@ -10,8 +10,8 @@ export function MapPage() {
         <span className="page-eyebrow">Map</span>
         <h1>Every point, grouped by day</h1>
         <p>
-          No embedded map or API key: each point links straight out to its own OpenStreetMap page. Markers are
-          colour- and shape-coded by type, and every marker is paired with a text label.
+          A keyless Google Maps overview up top, plus every point below linking straight out to its exact pin on
+          Google Maps. Markers are colour- and shape-coded by type, and every marker is paired with a text label.
         </p>
       </header>
       <MapView plan={plan} />

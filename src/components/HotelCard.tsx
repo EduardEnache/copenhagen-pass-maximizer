@@ -1,5 +1,5 @@
 import type { Hotel } from '@/data';
-import { osmMarker } from '@/lib';
+import { googleMapsMarker } from '@/lib';
 import { Badge } from './Badge';
 import { SourceLink } from './SourceLink';
 import { BedIcon, LuggageIcon } from './icons';
@@ -59,8 +59,8 @@ export function HotelCard({ hotel }: HotelCardProps) {
 
         <div className="cluster">
           <SourceLink source={hotel.luggageAfterCheckOut.source} label="Hotel FAQ" />
-          <a className="source-link" href={osmMarker(hotel.geo)} target="_blank" rel="noopener noreferrer">
-            View on OpenStreetMap
+          <a className="source-link" href={googleMapsMarker(hotel.geo, hotel.name)} target="_blank" rel="noopener noreferrer">
+            View on Google Maps
           </a>
         </div>
       </div>

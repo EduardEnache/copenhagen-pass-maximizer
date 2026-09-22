@@ -1,23 +1,31 @@
 import type { ItineraryPlan } from '@/types';
 import { ATTRACTIONS_BY_ID, CITYHUB_COPENHAGEN } from '@/data';
-import { osmMarker } from '@/lib';
+import { googleMapsMarker } from '@/lib';
 import { BedIcon, CompassIcon, PlaneIcon } from './icons';
 import { EmptyState } from './EmptyState';
+import { GoogleMapEmbed } from './GoogleMapEmbed';
 
 const CPH_AIRPORT_GEO = { lat: 55.618, lon: 12.6476 };
-const CPH_AIRPORT_URL = osmMarker(CPH_AIRPORT_GEO, 14);
+const CPH_AIRPORT_URL = googleMapsMarker(CPH_AIRPORT_GEO, 'Copenhagen Airport (CPH)');
 
 export interface MapViewProps {
   plan: ItineraryPlan;
 }
 
-/** A grouped, linkable list of every attraction, the hotel, and the
- * airport, colour- AND shape/icon-coded by point type. No embedded
- * interactive map library or API key: every point links out to its own
- * OpenStreetMap page. */
+/** An embedded Google Maps overview (keyless iframe, no billing/API key)
+ * plus a grouped, linkable list of every attraction, the hotel, and the
+ * airport, colour- AND shape/icon-coded by point type. Every point links
+ * out to its exact pin on Google Maps. */
 export function MapView({ plan }: MapViewProps) {
   return (
     <div className="stack" style={{ gap: 'var(--space-8)' }}>
+      <GoogleMapEmbed
+        geo={CITYHUB_COPENHAGEN.geo}
+        zoom={13}
+        title="Copenhagen trip area overview"
+        caption="Overview map centred on the hotel. This embed shows the general area only — tap any pin below to open that exact attraction, the hotel, or the airport in Google Maps."
+      />
+
       <div className="map-legend" aria-hidden="true">
         <span className="map-legend__item">
           <span className="map-point__marker" style={{ background: 'var(--color-canal)', borderRadius: '50%' }}>
@@ -75,7 +83,7 @@ export function MapView({ plan }: MapViewProps) {
                 {hasHotelTouch && (
                   <a
                     className="map-point"
-                    href={osmMarker(CITYHUB_COPENHAGEN.geo)}
+                    href={googleMapsMarker(CITYHUB_COPENHAGEN.geo, CITYHUB_COPENHAGEN.name)}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -95,7 +103,7 @@ export function MapView({ plan }: MapViewProps) {
                     <a
                       className="map-point"
                       key={id}
-                      href={attraction.osmUrl}
+                      href={attraction.mapUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                     >

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { addHoursAbsolute, dayOfWeekInCph, isWithinOpeningWindow, combineDateAndTimeCph } from '../src/lib/datetime';
 import { formatDkk, formatDurationMinutes, formatCountdown } from '../src/lib/format';
-import { osmMarker, rejseplanenUrl } from '../src/lib/mapLinks';
+import { googleMapsMarker, rejseplanenUrl } from '../src/lib/mapLinks';
 import { buildIcsText, foldLine } from '../src/lib/icsExport';
 import { exportJson, importJson, setNote, getNote } from '../src/lib/notesStorage';
 import { selectPlanVariant } from '../src/lib/planSelector';
@@ -51,9 +51,10 @@ describe('format helpers', () => {
 });
 
 describe('mapLinks', () => {
-  it('osmMarker builds a well-formed OSM link', () => {
-    const url = osmMarker({ lat: 55.6712, lon: 12.5245 });
-    expect(url).toBe('https://www.openstreetmap.org/?mlat=55.6712&mlon=12.5245#map=17/55.6712/12.5245');
+  it('googleMapsMarker builds a well-formed, keyless Google Maps link', () => {
+    const url = googleMapsMarker({ lat: 55.6712, lon: 12.5245 });
+    expect(url).toBe('https://www.google.com/maps/search/?api=1&query=55.6712%2C12.5245');
+    expect(url).not.toContain('key=');
   });
 
   it('rejseplanenUrl starts with https and includes both stop names', () => {

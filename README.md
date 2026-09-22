@@ -12,9 +12,10 @@ committed to the repo.
   a single-stage-runtime Docker image (multi-stage build).
 - **No backend.** All trip data (attractions, prices, opening hours,
   itineraries, pass rules) lives in `src/data/*.ts` as typed constants — there
-  is no database and no API calls at runtime except to static map/journey-
-  planner links (OpenStreetMap, Rejseplanen) that open in the visitor's own
-  browser.
+  is no database and no API calls at runtime except to Google Maps/Rejseplanen
+  links (all keyless, no billing account) that open in the visitor's own
+  browser, plus one keyless Google Maps embed on the Map page — see
+  [Security notes](#security-notes).
 - **PWA**: `vite-plugin-pwa` registers a service worker (`autoUpdate`) so the
   site is usable offline after a first visit — useful mid-trip with patchy
   data.
@@ -128,12 +129,23 @@ Gardens ever ends up referenced in a plan block (it is structurally excluded
 
 ## Security notes
 
-- No analytics or tracking of any kind.
-- No backend, no database, no user accounts, no cookies beyond what the
-  browser itself uses for PWA/service-worker caching.
+- No analytics or tracking added by this site, and no API key/account of ours
+  is involved anywhere.
+- **One third-party embed:** the Map page embeds a single Google Maps iframe
+  (`src/components/GoogleMapEmbed.tsx`) using Google's public, keyless
+  `google.com/maps?...&output=embed` URL — no API key, no billing account, no
+  script tag. It's the one place this site loads third-party content in an
+  iframe; Google may set cookies inside that iframe's own context (normal
+  behaviour for any embedded map), but nothing from it is readable by, or
+  shared with, this site itself, and no request is made to Google until you
+  open the Map page. All per-attraction directions/pin links (Google Maps,
+  Rejseplanen) are plain outbound links, not embeds, and load nothing until
+  clicked.
+- No backend, no database, no user accounts, no cookies of our own beyond
+  what the browser itself uses for PWA/service-worker caching.
 - No secrets in this repo — there is nothing to leak; all data is public
   trip-planning information.
-- Every external link (official attraction sites, OpenStreetMap, Rejseplanen)
+- Every external link (official attraction sites, Google Maps, Rejseplanen)
   is rendered with `rel="noopener noreferrer"` by the UI layer (Batch B) when
   opened in a new tab.
 - Response headers set by `nginx.conf`: `X-Content-Type-Options: nosniff`,

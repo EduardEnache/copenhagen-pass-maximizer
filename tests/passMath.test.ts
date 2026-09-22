@@ -28,15 +28,18 @@ describe('computeExpiry', () => {
 });
 
 describe('computeFeasibility', () => {
-  it('defaults: requiredSpan 80h, 72h infeasible, 96h feasible with slack 16', () => {
+  // Confirmed outbound flight W43123 lands 08:25 (vs. the old ~11:00
+  // estimate), so the required coverage span to the 19:00 Mon target
+  // airport arrival is longer than it was pre-confirmation: 82h35m.
+  it('defaults: requiredSpan ~82.58h (confirmed 08:25 arrival), 72h infeasible, 96h feasible with slack ~13.42', () => {
     const f72 = computeFeasibility(DEFAULT_TRIP_CONFIG, 72);
     const f96 = computeFeasibility(DEFAULT_TRIP_CONFIG, 96);
 
-    expect(f72.requiredSpanHours).toBeCloseTo(80, 5);
-    expect(f96.requiredSpanHours).toBeCloseTo(80, 5);
+    expect(f72.requiredSpanHours).toBeCloseTo(82.58333, 4);
+    expect(f96.requiredSpanHours).toBeCloseTo(82.58333, 4);
 
     expect(f72.isFeasible).toBe(false);
     expect(f96.isFeasible).toBe(true);
-    expect(f96.slackHours).toBeCloseTo(16, 5);
+    expect(f96.slackHours).toBeCloseTo(13.41667, 4);
   });
 });
