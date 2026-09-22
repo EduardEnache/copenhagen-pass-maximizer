@@ -31,16 +31,21 @@ export default function App() {
       <AppHeader />
       <div className="app-body">
         <main className="app-main" id="main-content">
-          <Routes>
-            <Route path="/" element={<Navigate to="/itinerary" replace />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/itinerary" element={<ItineraryPage />} />
-            <Route path="/calculator" element={<CalculatorPage />} />
-            <Route path="/map" element={<MapPage />} />
-            <Route path="/checklist" element={<ChecklistPage />} />
-            <Route path="/notes" element={<NotesPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
+          {/* Keying on the pathname (not the full location, so the itinerary's
+              ?day= query param doesn't retrigger it) replays the route-fade
+              entrance animation on every page change. */}
+          <div className="route-fade" key={location.pathname}>
+            <Routes>
+              <Route path="/" element={<Navigate to="/itinerary" replace />} />
+              <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/itinerary" element={<ItineraryPage />} />
+              <Route path="/calculator" element={<CalculatorPage />} />
+              <Route path="/map" element={<MapPage />} />
+              <Route path="/checklist" element={<ChecklistPage />} />
+              <Route path="/notes" element={<NotesPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </div>
         </main>
         <SidePanel />
       </div>

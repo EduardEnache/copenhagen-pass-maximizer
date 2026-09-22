@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useTripConfig } from '@/AppContext';
 import { formatCountdown } from '@/lib';
 import { useNow } from './useNow';
+import { withViewTransition } from './viewTransition';
 import { CompassIcon, MoonIcon, OverviewIcon, SunIcon } from './icons';
 
 /** Always-visible header: brand mark (links to the trip overview), a live
@@ -55,7 +56,7 @@ export function AppHeader() {
           <button
             type="button"
             className="icon-button"
-            onClick={() => setTheme(nextTheme)}
+            onClick={() => withViewTransition(() => setTheme(nextTheme))}
             aria-label={`Switch to ${nextTheme} mode (currently ${resolvedTheme} mode)`}
           >
             {resolvedTheme === 'dark' ? <SunIcon size={18} /> : <MoonIcon size={18} />}

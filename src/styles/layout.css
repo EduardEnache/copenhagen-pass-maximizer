@@ -33,6 +33,24 @@
   gap: var(--space-8);
 }
 
+/* Route transition: a soft cross-fade + rise, replayed by keying this
+   wrapper on the pathname (see App.tsx). Reduced motion is handled by the
+   global animation-duration override in global.css. */
+.route-fade {
+  animation: route-fade-in var(--duration-slow) var(--ease-out-soft) both;
+}
+
+@keyframes route-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* -- Header --------------------------------------------------------------- */
 
 .app-header {
@@ -184,6 +202,7 @@
 }
 
 .side-panel__nav a {
+  position: relative;
   display: flex;
   align-items: center;
   gap: var(--space-3);
@@ -200,9 +219,24 @@
   color: var(--color-ink);
 }
 
+/* Current section reads as a tinted, left-marked row rather than a flat
+   saturated pill — the accent stays on the text/marker, not as a fill. */
 .side-panel__nav a[aria-current='page'] {
+  background: var(--color-canal-tint);
+  color: var(--color-canal-deep);
+  font-weight: 700;
+}
+
+.side-panel__nav a[aria-current='page']::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 55%;
+  border-radius: var(--radius-pill);
   background: var(--color-canal);
-  color: var(--color-paper);
 }
 
 .side-panel__section {
@@ -262,7 +296,8 @@
   color: var(--color-ink-faint);
   font-size: var(--text-xs);
   font-weight: 600;
-  transition: color var(--duration-fast) var(--ease-out-soft), transform var(--duration-fast) var(--ease-spring);
+  transition: color var(--duration-fast) var(--ease-out-soft), background var(--duration-fast) var(--ease-out-soft),
+    transform var(--duration-fast) var(--ease-spring);
 }
 
 .bottom-nav a:hover {
@@ -270,6 +305,7 @@
 }
 
 .bottom-nav a[aria-current='page'] {
+  background: var(--color-canal-tint);
   color: var(--color-canal-deep);
 }
 

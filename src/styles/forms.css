@@ -323,6 +323,38 @@
   border-radius: var(--radius-pill);
   background: linear-gradient(90deg, var(--color-sage), var(--color-canal));
   transition: width var(--duration-slow) var(--ease-out-soft);
+  overflow: hidden;
+}
+
+/* Progressive-enhancement: fill sweeps in from empty on first paint, in
+   browsers that support @starting-style. Elsewhere it just renders at its
+   resolved width immediately — no visual bug either way. */
+@supports (transition-behavior: allow-discrete) {
+  @starting-style {
+    .validity-meter__fill {
+      width: 0%;
+    }
+  }
+}
+
+/* A slow, quiet light sweep across the filled portion — the meter's
+   signature "alive" touch, restrained enough not to distract. */
+.validity-meter__fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 25%, rgba(255, 255, 255, 0.4) 48%, transparent 72%);
+  background-size: 200% 100%;
+  animation: meter-sweep 4s ease-in-out infinite;
+}
+
+@keyframes meter-sweep {
+  0% {
+    background-position: 140% 0;
+  }
+  100% {
+    background-position: -60% 0;
+  }
 }
 
 .validity-meter__now {
@@ -396,12 +428,32 @@
 }
 
 .countdown__value {
+  display: inline-block;
   font-family: var(--font-mono);
   font-size: var(--text-2xl);
   font-weight: 600;
   color: var(--color-canal-deep);
   letter-spacing: var(--tracking-tight);
   font-variant-numeric: tabular-nums;
+  overflow: hidden;
+}
+
+/* Re-keyed by the component whenever the displayed value changes, so a
+   tick reads as a soft roll rather than an instant text swap. */
+.countdown__value-inner {
+  display: inline-block;
+  animation: countdown-tick var(--duration-base) var(--ease-out-soft) both;
+}
+
+@keyframes countdown-tick {
+  from {
+    opacity: 0;
+    transform: translateY(-40%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .countdown__sub {

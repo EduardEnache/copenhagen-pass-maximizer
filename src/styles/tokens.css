@@ -126,8 +126,8 @@
     --color-ink-soft: #c6c2ba;
     --color-ink-faint: #8d8a83;
 
-    --color-canal: #79aecb;
-    --color-canal-deep: #a9cfe3;
+    --color-canal: #6fa3bd;
+    --color-canal-deep: #b4cdda;
     --color-canal-tint: #1f313b;
 
     --color-terracotta: #e0997c;
@@ -144,7 +144,7 @@
     --color-surface: #202226;
     --color-overlay: rgba(0, 0, 0, 0.6);
 
-    --color-focus-ring: rgba(121, 174, 203, 0.55);
+    --color-focus-ring: rgba(111, 163, 189, 0.55);
 
     --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
     --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.3);

@@ -45,6 +45,10 @@
   overflow: visible;
   transition: box-shadow var(--duration-base) var(--ease-out-soft), transform var(--duration-base) var(--ease-out-soft);
   animation: block-in var(--duration-slow) var(--ease-out-soft) both;
+  /* Staggered per-block reveal: TimelineBlock sets --i to its index within
+     the day, capped so a long day doesn't push the last block's entrance
+     out too far. */
+  animation-delay: min(calc(var(--i, 0) * 55ms), 440ms);
 }
 
 @media (min-width: 640px) {
@@ -73,6 +77,7 @@
 .timeline-block:hover,
 .timeline-block:focus-within {
   box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
 
 .timeline-block--optional {
@@ -341,8 +346,8 @@
 }
 
 .day-tab[aria-selected='true'] {
-  background: var(--color-canal);
-  color: #fff;
+  background: var(--color-ink);
+  color: var(--color-paper);
 }
 
 .day-tab:not([aria-selected='true']):hover {

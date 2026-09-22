@@ -48,12 +48,15 @@ export interface TimelineBlockProps {
   /** The previous block's location, if known, used to build an OSM
    * directions link instead of a bare marker link. */
   originGeo?: GeoPoint;
+  /** Position within the day's list, used purely to stagger the entrance
+   * animation (via the --i custom property) — no effect on layout. */
+  index?: number;
 }
 
 /** The core visual unit of the itinerary: a transit-ticket-styled card
  * showing time, duration, pass coverage, opening hours, value, booking
  * warnings, directions and citations for one block of the day. */
-export function TimelineBlock({ block, date, originGeo }: TimelineBlockProps) {
+export function TimelineBlock({ block, date, originGeo, index }: TimelineBlockProps) {
   const meta = KIND_META[block.kind];
   const attraction = block.attractionId ? ATTRACTIONS_BY_ID[block.attractionId] : undefined;
   const duration = minutesBetween(block.startTime, block.endTime);
@@ -83,7 +86,10 @@ export function TimelineBlock({ block, date, originGeo }: TimelineBlockProps) {
     : undefined;
 
   return (
-    <article className={`timeline-block${block.isOptional ? ' timeline-block--optional' : ''}`}>
+    <article
+      className={`timeline-block${block.isOptional ? ' timeline-block--optional' : ''}`}
+      style={index != null ? ({ '--i': index } as React.CSSProperties) : undefined}
+    >
       <span className={`station station--${meta.shape}`} aria-hidden="true" />
       <div className="timeline-block__time">
         <span className="timeline-block__start">{block.startTime}</span>

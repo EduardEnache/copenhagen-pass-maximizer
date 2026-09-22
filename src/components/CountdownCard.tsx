@@ -15,6 +15,14 @@ export function CountdownCard({ departsLocal, activationInstantMs, expiryInstant
   const now = useNow(15_000);
   const departsMs = new Date(departsLocal).getTime();
 
+  const departureValue = now < departsMs ? formatCountdown(departsMs - now) : 'Departed';
+  const cardValue =
+    now < activationInstantMs
+      ? formatCountdown(activationInstantMs - now)
+      : now < expiryInstantMs
+        ? formatCountdown(expiryInstantMs - now)
+        : 'Expired';
+
   return (
     <div className="bezel">
       <div className="bezel__inner">
@@ -25,7 +33,9 @@ export function CountdownCard({ departsLocal, activationInstantMs, expiryInstant
               Departure (Bucharest)
             </span>
             <span className="countdown__value">
-              {now < departsMs ? formatCountdown(departsMs - now) : 'Departed'}
+              <span key={departureValue} className="countdown__value-inner">
+                {departureValue}
+              </span>
             </span>
             <span className="countdown__sub">
               {dateInCph(departsLocal)} at {timeInCph(departsLocal)} local
@@ -37,11 +47,9 @@ export function CountdownCard({ departsLocal, activationInstantMs, expiryInstant
               {now < activationInstantMs ? 'Card activates' : 'Card expires'}
             </span>
             <span className="countdown__value">
-              {now < activationInstantMs
-                ? formatCountdown(activationInstantMs - now)
-                : now < expiryInstantMs
-                  ? formatCountdown(expiryInstantMs - now)
-                  : 'Expired'}
+              <span key={cardValue} className="countdown__value-inner">
+                {cardValue}
+              </span>
             </span>
             <span className="countdown__sub">
               {dateInCph(new Date(expiryInstantMs).toISOString())} at {timeInCph(new Date(expiryInstantMs).toISOString())}{' '}

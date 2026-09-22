@@ -198,6 +198,19 @@ input[type='radio'] {
   color: var(--color-paper);
 }
 
+/* -- Theme-toggle cross-fade -------------------------------------------- */
+/* AppHeader's theme toggle runs through the View Transitions API (see
+   withViewTransition in components/) where supported, giving a soft
+   cross-fade across every colour token at once instead of an instant flash.
+   Browsers without support just swap instantly — no fallback CSS needed. */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: var(--duration-slow);
+    animation-timing-function: var(--ease-out-soft);
+  }
+}
+
 /* -- Reduced motion --------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -210,5 +223,13 @@ input[type='radio'] {
   }
   html {
     scroll-behavior: auto;
+  }
+  /* Not matched by *::before/*::after — the View Transitions API pseudo
+     tree needs its own opt-out. withViewTransition() also skips the API
+     entirely under reduced motion, so this is a defence-in-depth fallback. */
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }

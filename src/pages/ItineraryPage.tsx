@@ -88,13 +88,13 @@ export function ItineraryPage() {
           <EmptyState title="No blocks planned for this day" />
         ) : (
           <ol className="day-timeline">
-            {activeDay.blocks.map((block) => {
+            {activeDay.blocks.map((block, index) => {
               const originGeo = runningGeo;
               const thisGeo = geoForBlock(block);
               if (thisGeo) runningGeo = thisGeo;
               return (
                 <li key={block.id}>
-                  <TimelineBlock block={block} date={activeDay.date} originGeo={originGeo} />
+                  <TimelineBlock block={block} date={activeDay.date} originGeo={originGeo} index={index} />
                 </li>
               );
             })}
