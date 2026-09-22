@@ -1,0 +1,14 @@
+services:
+  web:
+    build:
+      context: .
+      args:
+        BUILD_ID: "1"
+    container_name: copenhagen-pass-maximizer
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8496:80"
+    networks: [cpm]
+networks:
+  cpm:
+    driver: bridge

@@ -1,0 +1,313 @@
+/* ==========================================================================
+   Card primitives, badges, callouts, buttons
+   ========================================================================== */
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+  padding: var(--space-6);
+}
+
+/* Double-bezel: an outer tinted shell framing an inner "glass" panel —
+   used for the higher-stakes cards (flight, hotel, countdown). */
+.bezel {
+  background: var(--color-paper-raised);
+  border: 1px solid var(--color-line-soft);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2);
+  box-shadow: var(--shadow-sm);
+}
+
+.bezel__inner {
+  background: var(--color-surface);
+  border-radius: calc(var(--radius-xl) - 8px);
+  box-shadow: var(--shadow-inset-hi);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+}
+
+@media (min-width: 720px) {
+  .grid-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* -- Badge ------------------------------------------------------------ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.badge svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+.badge--neutral {
+  background: var(--color-paper-raised);
+  color: var(--color-ink-soft);
+  border-color: var(--color-line-soft);
+}
+
+.badge--ok {
+  background: var(--color-status-ok-tint);
+  color: var(--color-status-ok);
+}
+
+.badge--critical {
+  background: var(--color-severity-critical-tint);
+  color: var(--color-severity-critical);
+}
+
+.badge--warning {
+  background: var(--color-severity-warning-tint);
+  color: var(--color-severity-warning);
+}
+
+.badge--info {
+  background: var(--color-severity-info-tint);
+  color: var(--color-severity-info);
+}
+
+/* -- Callout ------------------------------------------------------------- */
+
+.callout {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-line-soft);
+  background: var(--color-paper-raised);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+}
+
+.callout__icon {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.1rem;
+}
+
+.callout__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.callout__body strong {
+  font-weight: 700;
+}
+
+.callout--critical {
+  background: var(--color-severity-critical-tint);
+  border-color: color-mix(in srgb, var(--color-severity-critical) 30%, transparent);
+  color: color-mix(in srgb, var(--color-severity-critical) 82%, var(--color-ink));
+}
+
+.callout--warning {
+  background: var(--color-severity-warning-tint);
+  border-color: color-mix(in srgb, var(--color-severity-warning) 30%, transparent);
+  color: color-mix(in srgb, var(--color-severity-warning) 78%, var(--color-ink));
+}
+
+.callout--info {
+  background: var(--color-severity-info-tint);
+  border-color: color-mix(in srgb, var(--color-severity-info) 30%, transparent);
+  color: color-mix(in srgb, var(--color-severity-info) 74%, var(--color-ink));
+}
+
+.callout--ok {
+  background: var(--color-status-ok-tint);
+  border-color: color-mix(in srgb, var(--color-status-ok) 30%, transparent);
+  color: color-mix(in srgb, var(--color-status-ok) 74%, var(--color-ink));
+}
+
+/* -- Buttons --------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-weight: 600;
+  font-size: var(--text-sm);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease-spring), background var(--duration-fast) var(--ease-out-soft),
+    box-shadow var(--duration-fast) var(--ease-out-soft);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn--primary {
+  background: var(--color-canal);
+  color: #fff;
+  box-shadow: var(--shadow-xs);
+}
+
+.btn--primary:hover {
+  background: var(--color-canal-deep);
+}
+
+.btn--secondary {
+  background: var(--color-paper-raised);
+  color: var(--color-ink);
+  border-color: var(--color-line);
+}
+
+.btn--secondary:hover {
+  background: var(--color-paper-sunken);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--color-canal);
+  border-color: color-mix(in srgb, var(--color-canal) 40%, transparent);
+}
+
+.btn--ghost:hover {
+  background: var(--color-canal-tint);
+}
+
+.btn--danger {
+  background: transparent;
+  color: var(--color-terracotta);
+  border-color: color-mix(in srgb, var(--color-terracotta) 45%, transparent);
+}
+
+.btn--danger:hover {
+  background: var(--color-terracotta-tint);
+}
+
+.btn--icon-trailing {
+  padding-right: var(--space-2);
+}
+
+.btn__icon-wrap {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--duration-fast) var(--ease-spring);
+}
+
+.btn:hover .btn__icon-wrap {
+  transform: translate(2px, -1px);
+}
+
+/* -- Empty state ------------------------------------------------------------ */
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-8) var(--space-6);
+  border: 1.5px dashed var(--color-line);
+  border-radius: var(--radius-lg);
+  color: var(--color-ink-soft);
+  background: var(--color-paper-raised);
+}
+
+.empty-state svg {
+  width: 2rem;
+  height: 2rem;
+  color: var(--color-ink-faint);
+}
+
+.empty-state h3 {
+  font-size: var(--text-md);
+}
+
+/* -- Flight / hotel cards ---------------------------------------------------- */
+
+.travel-card__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.travel-card__route {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-mono);
+}
+
+.travel-card__code {
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  letter-spacing: var(--tracking-tight);
+}
+
+.travel-card__arrow {
+  color: var(--color-ink-faint);
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.travel-card__meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: 1px dashed var(--color-line);
+}
+
+.travel-card__meta dt {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-ink-faint);
+  margin-bottom: var(--space-1);
+}
+
+.travel-card__meta dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-md);
+  color: var(--color-ink);
+}
+
+.travel-card__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.travel-card__field label {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-ink-faint);
+}

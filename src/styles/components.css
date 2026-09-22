@@ -1,0 +1,8 @@
+/* Aggregates the component-level stylesheets, imported in a deliberate
+   cascade order: layout shell, then card primitives, then the timeline
+   (the app's signature surface), then forms, then small odds and ends. */
+@import './layout.css';
+@import './cards.css';
+@import './timeline.css';
+@import './forms.css';
+@import './misc.css';

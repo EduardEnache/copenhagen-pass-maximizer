@@ -1,0 +1,47 @@
+/* ==========================================================================
+   Manual dark theme — applied when <html data-theme="dark">, regardless of
+   the OS preference (the toggle in AppHeader always wins over the media
+   query in tokens.css once the visitor has made an explicit choice).
+   ========================================================================== */
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --color-paper: #191b1e;
+  --color-paper-raised: #212327;
+  --color-paper-sunken: #131416;
+  --color-ink: #f3efe8;
+  --color-ink-soft: #c6c2ba;
+  --color-ink-faint: #8d8a83;
+
+  --color-canal: #79aecb;
+  --color-canal-deep: #a9cfe3;
+  --color-canal-tint: #1f313b;
+
+  --color-terracotta: #e0997c;
+  --color-terracotta-tint: #3a2822;
+
+  --color-sage: #93b596;
+  --color-sage-tint: #212c22;
+
+  --color-amber: #d9b25f;
+  --color-amber-tint: #322a17;
+
+  --color-line: rgba(243, 239, 232, 0.16);
+  --color-line-soft: rgba(243, 239, 232, 0.09);
+  --color-surface: #202226;
+  --color-overlay: rgba(0, 0, 0, 0.6);
+
+  --color-focus-ring: rgba(121, 174, 203, 0.55);
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.34);
+  --shadow-lg: 0 20px 56px rgba(0, 0, 0, 0.42);
+  --shadow-inset-hi: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Explicit opt-out of dark mode even when the OS prefers it. */
+:root[data-theme='light'] {
+  color-scheme: light;
+}

@@ -1,0 +1,73 @@
+/* ==========================================================================
+   Print stylesheet — used by /print and honoured by the browser Print
+   command everywhere else. Black on white, linear, no chrome.
+   ========================================================================== */
+
+@media print {
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+    background: #fff !important;
+    color: #000 !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  body::before {
+    display: none !important;
+  }
+
+  .app-header,
+  .bottom-nav,
+  .side-panel,
+  .no-print,
+  .day-tabs,
+  .variant-switcher,
+  .ics-export-button,
+  .print-button,
+  .update-toast {
+    display: none !important;
+  }
+
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  a {
+    color: #000 !important;
+    text-decoration: underline;
+  }
+
+  /* Print external link URLs after the link text so a paper copy stays useful. */
+  .source-link[href]::after,
+  a.print-show-url[href]::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.75em;
+    word-break: break-all;
+  }
+
+  .print-day {
+    page-break-after: always;
+  }
+
+  .print-day:last-child {
+    page-break-after: auto;
+  }
+
+  .timeline-block,
+  .print-block {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    border: 1px solid #000 !important;
+    margin-bottom: 10pt;
+  }
+
+  h1, h2, h3 {
+    break-after: avoid;
+  }
+
+  .print-page {
+    max-width: 100%;
+  }
+}
