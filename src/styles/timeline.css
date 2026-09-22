@@ -37,7 +37,7 @@
 .timeline-block {
   position: relative;
   display: grid;
-  grid-template-columns: 4.75rem 1fr;
+  grid-template-columns: 4.75rem minmax(0, 1fr);
   background: var(--color-surface);
   border: 1px solid var(--color-line-soft);
   border-radius: var(--radius-lg);
@@ -49,7 +49,7 @@
 
 @media (min-width: 640px) {
   .timeline-block {
-    grid-template-columns: 5.75rem 1fr;
+    grid-template-columns: 5.75rem minmax(0, 1fr);
   }
 }
 

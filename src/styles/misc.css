@@ -255,7 +255,7 @@
 
 @media (min-width: 640px) {
   .map-points {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
