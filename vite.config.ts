@@ -26,6 +26,9 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,webmanifest}'],
+        // The Øresund photo app is mounted at /photos on the same origin
+        // (Tailscale Funnel :10000) — never answer its navigations from this cache.
+        navigateFallbackDenylist: [/^\/photos(\/|$)/],
       },
     }),
   ],
