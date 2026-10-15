@@ -1,187 +1,117 @@
-# Copenhagen Pass Maximizer
+<div align="center">
 
-A real, deployable trip-planning site for a 4-day Copenhagen trip (25–28 Sept
-2026, 4 adults), built around getting the most out of a 96h Copenhagen Card
-DISCOVER pass. No backend, no accounts, no analytics — a static site that
-reads its itinerary/pricing data from a set of typed TypeScript modules
-committed to the repo.
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0d1117,55:1f2a44,100:3b82f6&height=200&section=header&text=Copenhagen%20Pass%20Maximizer&fontSize=44&fontColor=ffffff&fontAlignY=36&desc=A%20trip%20planner%20that%20squeezes%20every%20krone%20out%20of%20a%2096h%20city%20pass&descSize=16&descAlignY=58&animation=fadeIn" width="100%" alt="Copenhagen Pass Maximizer"/>
 
-## Architecture
+![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-5-646CFF?style=flat-square&logo=vite&logoColor=white)
+![PWA](https://img.shields.io/badge/PWA-offline%20ready-5A0FC8?style=flat-square&logo=pwa&logoColor=white)
+![Vitest](https://img.shields.io/badge/tested%20with-Vitest-6E9F18?style=flat-square&logo=vitest&logoColor=white)
+![Status](https://img.shields.io/badge/status-trip%20complete-0d1117?style=flat-square)
 
-- **Build**: Vite + React + TypeScript, output to `dist/`, served by nginx in
-  a single-stage-runtime Docker image (multi-stage build).
-- **No backend.** All trip data (attractions, prices, opening hours,
-  itineraries, pass rules) lives in `src/data/*.ts` as typed constants — there
-  is no database and no API calls at runtime except to Google Maps/Rejseplanen
-  links (all keyless, no billing account) that open in the visitor's own
-  browser, plus one keyless Google Maps embed on the Map page — see
-  [Security notes](#security-notes).
-- **PWA**: `vite-plugin-pwa` registers a service worker (`autoUpdate`) so the
-  site is usable offline after a first visit — useful mid-trip with patchy
-  data.
-- **Domain types**: `src/types/core.ts` defines every shape used across the
-  app (attractions, itinerary blocks/days/plans, pass rules, trip config, the
-  pass-value calculation result). Everything in `src/data` and `src/lib`
-  conforms to these types.
-- **Pass logic**: `src/lib/passMath.ts` (expiry/feasibility math),
-  `src/lib/warnings.ts` (the warning engine), and `src/lib/passCalculator.ts`
-  (ties them together into `calculatePassValue()`) are pure, dependency-free
-  functions — no I/O, fully unit-tested.
-- **UI** (`src/components`, `src/pages`, `src/App.tsx`, `src/main.tsx`,
-  `index.html`) is a separate work-stream built on top of this data/logic
-  layer.
+<sub><a href="#-the-problem">The problem</a> &nbsp;·&nbsp; <a href="#-features">Features</a> &nbsp;·&nbsp; <a href="#-how-it-works">How it works</a> &nbsp;·&nbsp; <a href="#-run-it">Run it</a> &nbsp;·&nbsp; <a href="docs/DEVELOPMENT.md">Dev guide</a></sub>
 
-## Local development
+</div>
 
-```bash
+<br/>
+
+> Four adults, four days in Copenhagen (25–28 Sept 2026), one 96-hour Copenhagen Card each.
+> The card only pays off if the plan respects opening hours, one-visit-per-attraction rules,
+> transit times and the exact minute the card expires. This app turns that into typed data and pure functions,
+> then shows the plan, the savings and every risk on one screen, offline.
+
+<br/>
+
+<img src=".github/assets/overview.webp" alt="Trip overview with countdown, card validity meter and warnings" width="100%"/>
+
+<table>
+  <tr>
+    <td width="68%"><img src=".github/assets/itinerary-dark.webp" alt="Itinerary in dark mode with plan variants and day tabs"/><br/><img src=".github/assets/calculator.webp" alt="Pass value calculator"/></td>
+    <td width="32%" valign="top"><img src=".github/assets/mobile.webp" alt="Mobile itinerary view with bottom navigation"/></td>
+  </tr>
+</table>
+
+## ◆ &nbsp;The problem
+
+City passes are sold on "save up to X%". Whether they actually save money depends on details nobody checks:
+does the museum close at 16:00 or 17:00 in late September, does the airport train count if the journey *ends* after expiry,
+is Tivoli even open. Every one of those facts is captured here with a source link and a verification status,
+and the plan is rebuilt around them.
+
+## ◆ &nbsp;Features
+
+<table>
+  <tr>
+    <td width="33%" valign="top">
+      <h4>🗓️ Five itineraries</h4>
+      <p>Core, fast-paced, rainy-day, low-energy and late-arrival plans, switchable per day, each a timeline of blocks with fallbacks.</p>
+    </td>
+    <td width="33%" valign="top">
+      <h4>🧮 Live value calculator</h4>
+      <p>Change party size, card type, duration or activation time and watch feasibility and savings recompute instantly.</p>
+    </td>
+    <td width="33%" valign="top">
+      <h4>⚠️ Warning engine</h4>
+      <p>Flags visits outside opening hours, expiry edge cases, DST shifts and unverified facts, ranked by severity.</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="33%" valign="top">
+      <h4>📶 Offline-first PWA</h4>
+      <p>Installable, service-worker cached, usable mid-trip on patchy roaming data.</p>
+    </td>
+    <td width="33%" valign="top">
+      <h4>🗺️ Map, checklist, notes</h4>
+      <p>Keyless map embed, packing and booking checklists, private notes in local storage, calendar (.ics) export and a print view.</p>
+    </td>
+    <td width="33%" valign="top">
+      <h4>🔒 No backend</h4>
+      <p>No accounts, analytics or API keys. A static build behind nginx with strict security headers.</p>
+    </td>
+  </tr>
+</table>
+
+## ◆ &nbsp;How it works
+
+```mermaid
+flowchart LR
+    D["src/data/*.ts<br/>attractions · prices · hours<br/>pass rules · itineraries · sources"] --> T{{"src/types/core.ts<br/>domain types"}}
+    T --> L["src/lib<br/>passMath · warnings<br/>passCalculator (pure)"]
+    L --> U["React UI<br/>overview · itinerary · calculator<br/>map · checklist · notes"]
+    D --> V["tests/dataIntegrity<br/>every price and hour cited"]
+    L --> W["tests/*<br/>expiry · DST · feasibility"]
+```
+
+- **Data as code.** Every attraction, price, opening hour and rule is a typed constant with a source citation, so the compiler and the tests guard the research.
+- **Pure core.** Pass expiry, feasibility and the warning engine are dependency-free functions with no I/O, covered by Vitest (expiry, exclusivity, DST, 72h vs 96h, data integrity).
+- **Thin UI.** React components read the computed results; nothing in the UI re-derives business rules.
+
+## ◆ &nbsp;Run it
+
+```sh
 npm install
-npm run dev
+npm run dev          # Vite dev server on :5173
+npm test             # Vitest suite
+npm run typecheck    # tsc --noEmit
+docker compose up -d --build   # production build behind nginx on 127.0.0.1:8496
 ```
 
-Runs the Vite dev server (default port 5173).
+Updating the data, security notes, deployment and the dated research-verification record are in the
+**[development guide](docs/DEVELOPMENT.md)**.
 
-## Testing & typechecking
+## ◆ &nbsp;Tech
 
-```bash
-npm run typecheck   # tsc --noEmit
-npm test            # vitest run — tests/**/*.test.ts
-```
+![React](https://img.shields.io/badge/React-20232a?style=flat-square&logo=react&logoColor=61DAFB)
+![React Router](https://img.shields.io/badge/React%20Router-CA4245?style=flat-square&logo=reactrouter&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
+![Vitest](https://img.shields.io/badge/Vitest-6E9F18?style=flat-square&logo=vitest&logoColor=white)
+![nginx](https://img.shields.io/badge/nginx-009639?style=flat-square&logo=nginx&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
 
-The test suite covers pass expiry/exclusivity/DST math, feasibility
-calculations, the 72h-vs-96h delta, the full warning engine, and a data
-integrity suite that checks every source citation, price/opening-hours
-consistency rule, and fallback-block reference in `src/data`.
+<br/>
 
-## Build & deploy
-
-```bash
-npm run build                        # -> dist/
-docker compose build
-docker compose up -d
-```
-
-The container listens on `127.0.0.1:8496` (host-only) per
-`docker-compose.yml`; nothing is exposed externally by Docker itself.
-
-### Going live over Tailscale Funnel
-
-The intended public URL is:
-
-```
-https://<your-machine>.<your-tailnet>.ts.net:10000
-```
-
-This requires a **manual** Tailscale Funnel command on the host once the
-container is up, e.g. (adjust the local port to `8496` to match
-`docker-compose.yml`):
-
-```bash
-tailscale funnel --bg 8496
-```
-
-Funnel configuration is intentionally not automated by this repo — it's a
-host-level networking decision made by whoever operates the homelab gateway,
-not something this app's Docker Compose file should assume or manage.
-
-### Changing the domain
-
-If you move off Tailscale Funnel (e.g. onto a real domain behind a reverse
-proxy):
-
-1. Point a reverse-proxy host (nginx/Caddy/Traefik) at
-   `127.0.0.1:8496` (or bind the container directly to a different
-   host/port in `docker-compose.yml`).
-2. No app code needs to change — the app has no hardcoded domain; it is a
-   fully static, relative-path SPA (`base: '/'` in `vite.config.ts`).
-3. Update any bookmarks/QR codes pointing at the old Funnel URL.
-
-## Updating itinerary / pricing data
-
-All trip content lives in `src/data/*.ts`:
-
-- `attractions.ts` — one `Attraction` record per venue (hours, prices,
-  reservation requirements, warnings, sources).
-- `passRules.ts` — the Copenhagen Card DISCOVER/HOP price matrix and rules.
-- `hotel.ts`, `flights.ts`, `tripDefaults.ts` — hotel, flight, and default
-  `TripConfig` records.
-- `itinerary.core.ts` / `.fastPaced.ts` / `.rainyDay.ts` / `.lowEnergy.ts` /
-  `.lateArrival.ts` — the five day-by-day plan variants.
-- `fallbacks.ts` — shared fallback blocks referenced by `fallbackBlockIds`.
-- `checklists.ts`, `verifyBeforeYouGo.ts` — packing/booking checklists and
-  the re-verification register.
-- `sources.ts` — every citation (`SourceRef`) used anywhere, defined once and
-  imported elsewhere, so a fact is never cited two different ways.
-
-To change anything: edit the relevant file, then:
-
-```bash
-npm run typecheck
-npm test
-npm run build
-docker compose build && docker compose up -d
-```
-
-`npm test` includes a data-integrity suite (`tests/dataIntegrity.test.ts`)
-that will fail loudly if you introduce a broken fallback reference, an
-unverified price left in a total, a non-`https://` source URL, or if Tivoli
-Gardens ever ends up referenced in a plan block (it is structurally excluded
-— see below).
-
-## Security notes
-
-- No analytics or tracking added by this site, and no API key/account of ours
-  is involved anywhere.
-- **One third-party embed:** the Map page embeds a single Google Maps iframe
-  (`src/components/GoogleMapEmbed.tsx`) using Google's public, keyless
-  `google.com/maps?...&output=embed` URL — no API key, no billing account, no
-  script tag. It's the one place this site loads third-party content in an
-  iframe; Google may set cookies inside that iframe's own context (normal
-  behaviour for any embedded map), but nothing from it is readable by, or
-  shared with, this site itself, and no request is made to Google until you
-  open the Map page. All per-attraction directions/pin links (Google Maps,
-  Rejseplanen) are plain outbound links, not embeds, and load nothing until
-  clicked.
-- No backend, no database, no user accounts, no cookies of our own beyond
-  what the browser itself uses for PWA/service-worker caching.
-- No secrets in this repo — there is nothing to leak; all data is public
-  trip-planning information.
-- Every external link (official attraction sites, Google Maps, Rejseplanen)
-  is rendered with `rel="noopener noreferrer"` by the UI layer (Batch B) when
-  opened in a new tab.
-- Response headers set by `nginx.conf`: `X-Content-Type-Options: nosniff`,
-  `Referrer-Policy: no-referrer`, `X-Frame-Options: SAMEORIGIN`.
-- `localStorage` (see `src/lib/notesStorage.ts`) is used only for the
-  visitor's own notes/trip-config overrides/verification checkmarks, prefixed
-  `cpm:`, never transmitted anywhere. Every storage call is wrapped in
-  try/catch and no-ops gracefully if storage is unavailable (private
-  browsing, etc).
-
-## Re-verification checklist (do this again closer to departure)
-
-The research behind this app was checked on **2026-09-22**. Everything below
-is `unverified`, `partially-verified`, or `conflicting` and should be
-re-checked before/soon after departure. (This list is also encoded as data in
-`src/data/verifyBeforeYouGo.ts`, so the UI can render it directly.)
-
-| Fact | Status | Source |
-|---|---|---|
-| Rosenborg Castle timed-entry slots sell out — confirm your booking | critical | https://denkongeligesamling.dk/en/rosenborg-castle/plan-your-visit/ |
-| Outbound OTP→CPH flight arrival time is unknown | critical | — |
-| Full-journey validity rule (card must be valid for the *entire* journey, checked at journey end, not start) | critical (restated) | https://copenhagencard.com/view/faq?lang=EN |
-| Canal Tours Copenhagen: only the Sept 10:00–17:30 operating window is published, not a departure timetable — last departure unknown | high | https://copenhagencard.com/attractions/canal-tours-copenhagen |
-| Rosenborg Castle closing time conflicts across sources (16:00 vs 17:00 for late Sept) — plan assumes the conservative 16:00 | high | https://denkongeligesamling.dk/en/rosenborg-castle/plan-your-visit/ |
-| Christiansborg Palace opening hours were not published on the page fetched during research | high | https://denkongeligesamling.dk/en/christiansborg-palace/plan-your-visit/ |
-| CityHub after-checkout free-locker policy (Day 4) not confirmed verbatim — confirm with the hotel | high | https://cityhub.com/copenhagen/faq/ |
-| Tivoli Gardens re-check: treated as closed all 4 days based on today's published seasonal calendar | info | https://www.tivoli.dk/en/opening-hours-and-seasons |
-| One-visit-per-attraction rule (no re-entry on the same card) | info | https://copenhagencard.com/view/faq?lang=EN |
-| Several attractions publish no standalone adult price / conflicting prices (Frederiksborg, SMK, Amalienborg, Canal Tours, Cisternerne, David Collection, Kronborg, Zoo) — excluded from savings totals | info | — |
-| The Round Tower's Sept→Oct switchover from the 10:00–20:00 summer schedule is unpublished — plan assumes a conservative 10:00–18:00 floor | info | https://www.rundetaarn.dk/en/practical-information/ |
-| All transit times (Metro/S-train/bus) are planning estimates, not live schedule data | info | — |
-
-## Ownership / provenance
-
-This repo's config/data/lib layer was built by "Batch A" from a cited,
-implementation spec (research date 2026-09-22, trip departs
-2026-09-25). The UI layer (`src/components`, `src/pages`, `src/App.tsx`,
-`src/main.tsx`, `src/AppContext.tsx`, `index.html`) was built afterward by
-"Batch B" on top of this foundation.
+<div align="center">
+<sub>Built by <a href="https://github.com/LikeMyCoffe"><b>Eduard-Florentin Enache</b></a> &nbsp;·&nbsp; Data · BI · AI product builder</sub>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:3b82f6,45:1f2a44,100:0d1117&height=90&section=footer" width="100%" alt=""/>
+</div>
